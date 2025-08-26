@@ -36,7 +36,7 @@ function App() {
   const [SSTAvailable, setSSTAvailable] = useState(false);
   const [serviceTaxAvailable, setserviceTaxAvailable] = useState(false);
   const [mode, setMode] = useState("dark");
-  const [clock, setClock] = useState("——/—/— —:—:—");
+  const [clock, setClock] = useState("Loading time, please wait...");
 
   const handleClear = () => {
     setTotal(0);
@@ -89,11 +89,9 @@ function App() {
     setClock(time);
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setClock(currentTime);
-    }, 1000);
-  });
+  setInterval(() => {
+    setClock(currentTime);
+  }, 1000);
 
   return (
     <Box className={mode} sx={{ minHeight: "100vh", height: "100%" }}>
