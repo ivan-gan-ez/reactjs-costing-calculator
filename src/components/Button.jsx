@@ -44,16 +44,7 @@ const CalculatorButton = (props) => {
   };
 
   const handleOperation = (text) => {
-    if (
-      !(
-        operator === "+" ||
-        operator === "-" ||
-        operator === "×" ||
-        operator === "÷"
-      )
-    ) {
-      handleEqual(operator);
-    }
+    handleEqual(operator);
     setOperator(text);
   };
 
