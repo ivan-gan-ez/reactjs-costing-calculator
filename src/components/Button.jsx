@@ -18,13 +18,7 @@ const CalculatorButton = (props) => {
   } = props;
 
   const handleConcat = () => {
-    if (
-      (display === "" && text !== ".") ||
-      display === "+" ||
-      display === "-" ||
-      display === "×" ||
-      display === "÷"
-    ) {
+    if ((display === "" || display === "0" || display === 0) && text !== ".") {
       setDisplay(text.toString());
       setShow("display");
     } else if (
@@ -68,25 +62,57 @@ const CalculatorButton = (props) => {
       if (operator === "") {
         if (show === "total") {
           setTotal(Number.parseFloat(total).toFixed(2));
+          localStorage.setItem(
+            "value",
+            JSON.stringify(Number.parseFloat(total).toFixed(2))
+          );
         } else if (show === "display") {
           setTotal(Number.parseFloat(display).toFixed(2));
+          localStorage.setItem(
+            "value",
+            JSON.stringify(Number.parseFloat(display).toFixed(2))
+          );
         }
       }
 
       if (operator === "+") {
         setTotal((Number(total) + Number.parseFloat(display)).toFixed(2));
+        localStorage.setItem(
+          "value",
+          JSON.stringify(
+            (Number(total) + Number.parseFloat(display)).toFixed(2)
+          )
+        );
       }
 
       if (operator === "-") {
         setTotal((Number(total) - Number.parseFloat(display)).toFixed(2));
+        localStorage.setItem(
+          "value",
+          JSON.stringify(
+            (Number(total) - Number.parseFloat(display)).toFixed(2)
+          )
+        );
       }
 
       if (operator === "×") {
         setTotal((Number(total) * Number.parseFloat(display)).toFixed(2));
+        localStorage.setItem(
+          "value",
+          JSON.stringify(
+            (Number(total) * Number.parseFloat(display)).toFixed(2)
+          )
+        );
       }
 
       if (operator === "÷") {
         setTotal((Number(total) / Number.parseFloat(display)).toFixed(2));
+        localStorage.setItem(
+          "value",
+          JSON.stringify(
+            (Number(total) / Number.parseFloat(display)).toFixed(2)
+          )
+        );
       }
 
       setDisplay("");

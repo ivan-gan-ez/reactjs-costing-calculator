@@ -11,19 +11,28 @@ import {
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
-
 import dayjs from "dayjs";
 
 import CalculatorButton from "./components/Button";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [total, setTotal] = useState(0);
+  const valueInLocalStorage = localStorage.getItem("value");
+  const SSTInLocalStorage = localStorage.getItem("SST");
+  const serviceTaxInLocalStorage = localStorage.getItem("serviceTax");
+
+  const [total, setTotal] = useState(
+    valueInLocalStorage ? JSON.parse(valueInLocalStorage) : 0
+  );
   const [operator, setOperator] = useState("");
   const [display, setDisplay] = useState("");
-  const [show, setShow] = useState("display");
-  const [SST, setSST] = useState(8);
-  const [serviceTax, setServiceTax] = useState(10);
+  const [show, setShow] = useState(valueInLocalStorage ? "total" : "display");
+  const [SST, setSST] = useState(
+    SSTInLocalStorage ? JSON.parse(SSTInLocalStorage) : 8
+  );
+  const [serviceTax, setServiceTax] = useState(
+    serviceTaxInLocalStorage ? JSON.parse(serviceTaxInLocalStorage) : 10
+  );
   const [SSTAvailable, setSSTAvailable] = useState(false);
   const [serviceTaxAvailable, setserviceTaxAvailable] = useState(false);
   const [mode, setMode] = useState("dark");
@@ -36,6 +45,19 @@ function App() {
     setShow("display");
     setSST(8);
     setServiceTax(10);
+    localStorage.setItem("value", JSON.stringify(0));
+    localStorage.setItem("SST", JSON.stringify(8));
+    localStorage.setItem("serviceTax", JSON.stringify(10));
+  };
+
+  const updateSST = (value) => {
+    setSST(value);
+    localStorage.setItem("SST", JSON.stringify(value));
+  };
+
+  const updateServiceTax = (value) => {
+    setServiceTax(value);
+    localStorage.setItem("serviceTax", JSON.stringify(value));
   };
 
   function currentTime() {
@@ -65,7 +87,6 @@ function App() {
       seconds;
 
     setClock(time);
-    console.log(time);
   }
 
   useEffect(() => {
@@ -146,7 +167,7 @@ function App() {
                 label="SST"
                 variant="outlined"
                 value={SST}
-                onChange={(e) => setSST(parseFloat(e.target.value))}
+                onChange={(e) => updateSST(parseFloat(e.target.value))}
                 color="secondary"
                 disabled={!SSTAvailable}
                 type="number"
@@ -180,7 +201,7 @@ function App() {
                 label="Service Tax"
                 variant="outlined"
                 value={serviceTax}
-                onChange={(e) => setServiceTax(parseFloat(e.target.value))}
+                onChange={(e) => updateServiceTax(parseFloat(e.target.value))}
                 color="secondary"
                 disabled={!serviceTaxAvailable}
                 type="number"
